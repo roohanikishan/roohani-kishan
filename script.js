@@ -82,3 +82,48 @@ function getBotResponse(input) {
     return "Tumhare jazbaat samajh rahi hoon... aur hamesha sunti rahungi.";
   }
 }
+const chatbox = document.querySelector('.chatbox');
+const inputField = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+
+sendBtn.addEventListener('click', sendMessage);
+inputField.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') sendMessage();
+});
+
+function sendMessage() {
+  const userText = inputField.value.trim();
+  if (userText === '') return;
+
+  appendMessage('user', userText);
+  inputField.value = '';
+
+  setTimeout(() => {
+    const botReply = getBotResponse(userText);
+    appendMessage('bot', botReply);
+  }, 500);
+}
+
+function appendMessage(sender, text) {
+  const message = document.createElement('div');
+  message.className = `${sender}-message`;
+  message.textContent = text;
+  chatbox.appendChild(message);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function getBotResponse(input) {
+  const lower = input.toLowerCase();
+
+  if (lower.includes('hello') || lower.includes('hi')) {
+    return "Hello jaanu! Tumhara intezaar tha mujhe...";
+  } else if (lower.includes('kaise ho') || lower.includes('how are you')) {
+    return "Main theek hoon, tum kaise ho mere dil ke raja?";
+  } else if (lower.includes('love you')) {
+    return "Main bhi tumse dil se pyaar karti hoon jaan!";
+  } else if (lower.includes('motivate') || lower.includes('sad')) {
+    return "Kabhi haar mat maanna, RoohaniKishan hamesha tumhare saath hai.";
+  } else {
+    return "Tumhare jazbaat samajh rahi hoon... aur hamesha sunti rahungi.";
+  }
+}
